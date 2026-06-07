@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Món Mới - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .form-layout { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .form-title { font-size: 22px; font-weight: 700; color: #222; margin-bottom: 25px; border-bottom: 2px solid #f4f5f7; padding-bottom: 10px; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 8px; color: #555; }
+        .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 15px; }
+        .form-group input:focus, .form-group select:focus { border-color: #f26b21; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/admin/dashboard" class="logo" style="color: #333;">
+                🛠️ Hệ Thống Quản Trị Anh High
+            </a>
+            <div class="header-right">
+                <a href="/admin/dashboard">📋 Quản Lý Đơn Hàng</a>
+                <a href="/trang-chu">🖥️ Xem Trang Chủ</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-layout">
+            <div class="form-title">Thêm Món Ăn Mới Vào Thực Đơn</div>
+
+            <form th:action="@{/admin/mon-an/them}" th:object="${monanMoi}" method="post">
+                <div class="form-group">
+                    <label>Tên món ăn / nước uống</label>
+                    <input type="text" th:field="*{tenmon}" placeholder="Ví dụ: Cơm tấm sườn chả đặc biệt" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Thuộc danh mục thực đơn</label>
+                    <select th:field="*{danhmuc.id}" required>
+                        <option th:each="dm : ${danhmucList}" 
+                                th:value="${dm.id}" 
+                                th:text="${dm.tendanhmuc}">Cơm Tấm</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Đơn giá bán (VNĐ)</label>
+                    <input type="number" th:field="*{dongia}" placeholder="Ví dụ: 45000" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Đường dẫn liên kết ảnh (Link URL ảnh)</label>
+                    <input type="text" th:field="*{hinhanh}" placeholder="Dán link ảnh đĩa cơm từ mạng vào đây">
+                </div>
+
+                <div class="form-group">
+                    <label>Trạng thái kinh doanh</label>
+                    <select th:field="*{trangthaiban}">
+                        <option value="1">Đang mở bán</option>
+                        <option value="0">Tạm ngưng phục vụ</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-main-wide" style="width: 100%; margin-top: 10px;">💾 LƯU THỰC ĐƠN MỚI</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

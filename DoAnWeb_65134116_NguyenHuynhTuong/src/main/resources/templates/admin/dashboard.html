@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Quản Trị - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .admin-layout { margin-top: 30px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f4f5f7; padding-bottom: 15px; }
+        .admin-title { font-size: 24px; font-weight: 700; color: #222; }
+        
+        /* Định dạng bảng danh sách đơn hàng */
+        .order-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 15px; }
+        .order-table th, .order-table td { padding: 12px 15px; border-bottom: 1px solid #f4f5f7; font-size: 15px; }
+        .order-table th { background-color: #fff3e5; color: #f26b21; font-weight: 700; }
+        .order-table tr:hover { background-color: #fbfbfb; }
+        
+        /* Badge màu sắc theo trạng thái đơn hàng */
+        .badge { padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: 500; display: inline-block; }
+        .badge-pending { background-color: #fff3e5; color: #f26b21; }
+        .badge-shipping { background-color: #e8f0fe; color: #1a73e8; }
+        .badge-success { background-color: #e6f4ea; color: #137333; }
+        
+        .select-status { padding: 6px 10px; border-radius: 6px; border: 1px solid #ddd; outline: none; font-size: 14px; }
+        .btn-update { background: #333; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; margin-left: 5px; }
+        .btn-update:hover { background: #f26b21; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/admin/dashboard" class="logo" style="color: #333;">
+                🛠️ Hệ Thống Quản Trị Anh High
+            </a>
+            <div class="header-right">
+                <a href="/admin/mon-an/them" style="color: #f26b21; font-weight: bold;">➕ THÊM MÓN MỚI</a>
+                <a href="/trang-chu">🖥️ Xem Trang Chủ</a>
+                <a href="/dang-xuat" style="color: red;">Đăng xuất</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="admin-layout">
+            <div class="admin-header">
+                <div class="admin-title">Danh Sách Đơn Đặt Cơm Tấm Toàn Hệ Thống</div>
+            </div>
+
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Khách Hàng</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Địa Chỉ Giao Hàng</th>
+                        <th>Tổng Tiền</th>
+                        <th>Trạng Thái Hiện Tại</th>
+                        <th>Hành Động Xử Lý</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="hd : ${hoadonList}">
+                        <td th:text="'#' + ${hd.id}">#1</td>
+                        <td th:text="${hd.taikhoan.hoten}">Nguyễn Văn A</td>
+                        <td th:text="${hd.sodienthoai}">0901234567</td>
+                        <td th:text="${hd.diachigiaohang}">123 Nguyễn Trãi, Q1</td>
+                        <td style="font-weight: 700; color: #f26b21;" th:text="${#numbers.formatDecimal(hd.tongtien, 0, 'COMMA', 0, 'POINT')} + ' Đ'">45,000 Đ</td>
+                        <td>
+                            <span th:class="'badge ' + (${hd.trangthai == 'Chờ xác nhận' ? 'badge-pending' : (hd.trangthai == 'Đang giao hàng' ? 'badge-shipping' : 'badge-success')})" 
+                                  th:text="${hd.trangthai}">Chờ xác nhận</span>
+                        </td>
+                        <td>
+                            <form th:action="@{/admin/don-hang/cap-nhat}" method="post" style="display: flex; align-items: center;">
+                                <input type="hidden" name="hoadonid" th:value="${hd.id}">
+                                <select name="trangthai" class="select-status">
+                                    <option value="Chờ xác nhận" th:selected="${hd.trangthai == 'Chờ xác nhận'}">Chờ xác nhận</option>
+                                    <option value="Đang giao hàng" th:selected="${hd.trangthai == 'Đang giao hàng'}">Đang giao hàng</option>
+                                    <option value="Đã giao cơm" th:selected="${hd.trangthai == 'Đã giao cơm'}">Đã giao cơm</option>
+                                </select>
+                                <button type="submit" class="btn-update">Cập nhật</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
