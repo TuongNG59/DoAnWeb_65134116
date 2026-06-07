@@ -9,7 +9,11 @@
 
     <header class="header">
         <div class="container">
-            <a href="/trang-chu" class="logo">Cơm Tấm Anh High</a>
+            <a href="/trang-chu" class="logo">
+                <img th:src="@{/images/logo.png}" class="logo-img" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/562/562678.png'">
+                Cơm Tấm Anh High
+            </a>
+            
             <div class="header-right">
                 <span th:if="${session.USER_LOGGED == null}">
                     <a href="/dang-nhap">Đăng Nhập</a>
@@ -24,7 +28,19 @@
         </div>
     </header>
 
-    <div class="container">
+	<section class="hero-section">
+	        <div class="container hero-container">
+	            <div class="hero-image">
+	                <img th:src="@{/images/comsuon1.jpg}" alt="Đĩa Cơm Tấm Siêu To" onerror="this.src='https://images.squarespace-cdn.com/content/v1/5c34e64f36099b2229e612f0/1623862412852-5Z8W1VCH650HT8T7X60D/Com-Tam-Suon-Recipe.png'">
+	            </div>
+	            
+	            <div class="hero-content-bottom">
+	                <a href="#thuc-don" class="btn-main-wide">ĐẶT MÓN NGAY</a>
+	            </div>
+	        </div>
+	    </section>
+
+    <div class="container" id="thuc-don">
         <div class="filter-section">
             <div class="category-menu">
                 <a href="/trang-chu">Tất cả</a>

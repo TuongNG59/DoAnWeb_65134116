@@ -33,3 +33,87 @@ body { background-color: #f4f5f7; color: #333; }
 /* Nút thêm vào giỏ */
 .btn-add { background: #f26b21; color: white; border: none; padding: 10px 25px; border-radius: 25px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; }
 .btn-add:hover { background: #d95a1a; }
+
+/* ==========================================================================
+   CẬP NHẬT THÊM CHO LOGO VÀ BANNER HERO NGANG LỀ (CƠM TẤM ANH HIGH)
+   ========================================================================== */
+
+/* Định dạng ảnh Logo trên Thanh Header */
+.logo-img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+/* Khối Banner Hero */
+.hero-section {
+    background: linear-gradient(135deg, #fffbf7 0%, #fff3e5 100%);
+    padding: 0px 0;
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+/* Container bên trong khối Hero xếp theo dạng cột dọc */
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Khối chứa ảnh cơm tấm bên trên - cho phép rộng tối đa khung container */
+.hero-image {
+    width: 100%;
+    text-align: center;
+}
+
+.hero-image img {
+    width: 100%;            /* Chạy rộng hết tầm lề */
+    max-height: 500px;      /* Giới hạn chiều cao để không bị quá to chiếm màn hình */
+    object-fit: cover;      /* Giúp ảnh tự co giãn đẹp mà không vỡ hình */
+    border-radius: 16px;    /* Bo góc nhẹ cho đĩa cơm tấm */
+    filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.08));
+}
+
+/* Khối chứa tiêu đề và nút bấm bên dưới tấm ảnh */
+.hero-content-bottom {
+    width: 100%;            /* Đảm bảo rộng bằng chiều ngang tấm ảnh và Header */
+    text-align: center;
+}
+
+.hero-content-bottom h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.hero-content-bottom h2 span {
+    color: #f26b21;
+}
+
+/* NÚT BẤM TO RỘNG NGANG LỀ TOÀN BỘ TRANG WEB (Bằng lề Logo tới Giỏ hàng) */
+.btn-main-wide {
+    display: block;
+    width: 20%;              /* Kéo dãn ngang lề theo tỷ lệ cậu muốn */
+    margin: 0px auto 0;
+    background-color: #f26b21;
+    color: white;
+    padding: 10px 0;         
+    border-radius: 30px;     
+    font-weight: 700;
+    font-size: 18px;
+    text-decoration: none;
+    text-align: center;      /* Căn giữa chữ bên trong nút */
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 15px rgba(242, 107, 33, 0.3);
+}
+
+.btn-main-wide:hover {
+    background-color: #d95a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(242, 107, 33, 0.5);
+}
