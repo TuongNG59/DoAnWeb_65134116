@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ Hàng Của Bạn - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* Bố cục chia hai cột: Danh sách món bên trái, Form đặt hàng bên phải */
+        .cart-layout { display: flex; gap: 30px; margin-top: 30px; align-items: flex-start; }
+        .cart-left { flex: 2; background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .cart-right { flex: 1; background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); position: sticky; top: 20px; }
+        
+        .cart-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #222; border-bottom: 2px solid #f4f5f7; padding-bottom: 10px; }
+        
+        /* Từng dòng sản phẩm trong giỏ */
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f4f5f7; }
+        .cart-item:last-child { border-bottom: none; }
+        .item-info { display: flex; align-items: center; gap: 15px; }
+        .item-info img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; }
+        .item-details h4 { font-size: 16px; color: #333; margin-bottom: 5px; }
+        .item-details p { font-size: 14px; color: #f26b21; font-weight: 700; }
+        
+        .item-qty { font-weight: 500; color: #666; font-size: 15px; }
+        .btn-delete { color: #cc3333; text-decoration: none; font-size: 14px; font-weight: 500; }
+        .btn-delete:hover { text-decoration: underline; }
+        
+        /* Hộp tổng kết và đặt hàng */
+        .summary-row { display: flex; justify-content: space-between; font-size: 16px; margin-bottom: 15px; }
+        .total-price { font-size: 20px; font-weight: 700; color: #f26b21; }
+        
+        .checkout-form .form-group { margin-bottom: 15px; }
+        .checkout-form label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: #555; }
+        .checkout-form input, .checkout-form textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 14px; }
+        .checkout-form input:focus, .checkout-form textarea:focus { border-color: #f26b21; }
+        
+        .empty-cart { text-align: center; padding: 40px 0; }
+        .empty-cart p { color: #666; margin-bottom: 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/trang-chu" class="logo">
+                <img th:src="@{/images/logo.png}" class="logo-img" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/562/562678.png'">
+                Cơm Tấm Anh High
+            </a>
+            <div class="header-right">
+                <span th:if="${session.USER_LOGGED != null}">
+                    Xin chào, <b th:text="${session.USER_LOGGED.hoten}">User</b>!
+                    <a href="/dang-xuat" style="color: red;">Đăng xuất</a>
+                </span>
+                <a href="/trang-chu">🏠 Quay lại thực đơn</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- TRƯỜNG HỢP 1: GIỎ HÀNG TRỐNG -->
+        <div class="empty-cart" th:if="${#lists.isEmpty(giohangList)}">
+            <p>Giỏ hàng của bro đang trống rỗng. Hãy quay lại lựa cơm tấm sườn nướng mật ong đi nào!</p>
+            <a href="/trang-chu" class="btn-main" style="text-decoration: none;">CHỌN MÓN NGAY</a>
+        </div>
+
+        <!-- TRƯỜNG HỢP 2: CÓ MÓN TRONG GIỎ HÀNG -->
+        <div class="cart-layout" th:if="${!#lists.isEmpty(giohangList)}">
+            
+            <!-- Cột bên trái: Danh sách các đĩa cơm đã chọn -->
+            <div class="cart-left">
+                <div class="cart-title">Món ăn đã chọn</div>
+                
+                <div class="cart-item" th:each="item : ${giohangList}">
+                    <div class="item-info">
+                        <img th:src="${item.monan.hinhanh != null ? item.monan.hinhanh : 'https://cdn.tgdd.vn/Files/2021/08/04/1373024/cach-lam-com-tam-suon-bi-cha-chuan-vi-ngon-nhu-ngoai-hang-202201251608247065.jpg'}" alt="Món ăn">
+                        <div class="item-details">
+                            <h4 th:text="${item.monan.tenmon}">Cơm Sườn Chả</h4>
+                            <p th:text="${#numbers.formatDecimal(item.monan.dongia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">45,000 VNĐ</p>
+                            <small style="color: #888;" th:if="${item.ghichu != null}" th:text="'Topping: ' + ${item.ghichu}"></small>
+                        </div>
+                    </div>
+                    
+                    <div class="item-qty" th:text="'x ' + ${item.soluong}">x 1</div>
+                    
+                    <div>
+                        <!-- Nút xóa món ăn khỏi giỏ -->
+                        <a th:href="@{/gio-hang/xoa/{id}(id=${item.id})}" class="btn-delete">Xóa món</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cột bên phải: Form nhập thông tin nhận cơm và Tổng tiền -->
+            <div class="cart-right">
+                <div class="cart-title">Thông tin giao hàng</div>
+                
+                <form th:action="@{/gio-hang/thanh-toan}" method="post" class="checkout-form">
+                    <div class="form-group">
+                        <label>Số điện thoại nhận cơm</label>
+                        <input type="tel" name="sodienthoai" placeholder="Nhập SĐT để tài xế gọi" required th:value="${session.USER_LOGGED != null ? session.USER_LOGGED.sodienthoai : ''}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Địa chỉ giao hàng chính xác</label>
+                        <textarea name="diachigiaohang" rows="3" placeholder="Số nhà, tên đường, phường/xã..." required th:text="${session.USER_LOGGED != null ? session.USER_LOGGED.diachi : ''}"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ghi chú cho quán (Nếu có)</label>
+                        <input type="text" name="ghichu" placeholder="Ví dụ: Ít cơm nhiều mỡ hành, nước mắm cay...">
+                    </div>
+                    
+                    <hr style="border: none; border-top: 1px solid #f4f5f7; margin: 20px 0;">
+                    
+                    <!-- Nút bấm Đặt hàng màu cam thương hiệu hoành tráng -->
+                    <button type="submit" class="btn-main-wide" style="width: 100%; margin: 0;">XÁC NHẬN ĐẶT CƠM</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>
