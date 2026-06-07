@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quán Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/trang-chu" class="logo">Cơm Tấm Anh High</a>
+            <div class="header-right">
+                <span th:if="${session.USER_LOGGED == null}">
+                    <a href="/dang-nhap">Đăng Nhập</a>
+                    <a href="/dang-ky">Đăng Ký</a>
+                </span>
+                <span th:if="${session.USER_LOGGED != null}">
+                    Xin chào, <b th:text="${session.USER_LOGGED.hoten}">User</b>!
+                    <a href="/dang-xuat" style="color: red;">Đăng xuất</a>
+                </span>
+                <a href="/gio-hang" class="btn-cart">🛒 Giỏ Hàng</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filter-section">
+            <div class="category-menu">
+                <a href="/trang-chu">Tất cả</a>
+                <a th:each="dm : ${danhmucList}" 
+                   href="#" 
+                   th:text="${dm.tendanhmuc}">Cơm tấm</a>
+            </div>
+
+            <div class="search-box">
+                <form th:action="@{/trang-chu}" method="get" style="display: flex;">
+                    <input type="text" name="search" placeholder="Bạn muốn ăn gì?" th:value="${tuKhoaTimKiem}">
+                    <button type="submit">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="product-grid">
+            <div class="food-card" th:each="mon : ${monanList}">
+                <img th:src="${mon.hinhanh != null ? mon.hinhanh : 'https://cdn.tgdd.vn/Files/2021/08/04/1373024/cach-lam-com-tam-suon-bi-cha-chuan-vi-ngon-nhu-ngoai-hang-202201251608247065.jpg'}" alt="Món ăn">
+                
+                <h3 th:text="${mon.tenmon}">Cơm Sườn Bì</h3>
+                <div class="price" th:text="${#numbers.formatDecimal(mon.dongia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">45,000 VNĐ</div>
+                
+                <form th:action="@{/gio-hang/them}" method="post">
+                    <input type="hidden" name="monanid" th:value="${mon.id}">
+                    <input type="hidden" name="soluong" value="1">
+                    <button type="submit" class="btn-add">THÊM VÀO GIỎ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
