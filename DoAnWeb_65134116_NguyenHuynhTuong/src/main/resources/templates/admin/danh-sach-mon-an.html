@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Món Ăn - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .admin-layout { margin-top: 30px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f4f5f7; padding-bottom: 15px; }
+        .admin-title { font-size: 24px; font-weight: 700; color: #222; }
+        
+        /* CSS Bảng thực đơn */
+        .admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .admin-table th, .admin-table td { padding: 12px 15px; border-bottom: 1px solid #f4f5f7; font-size: 15px; vertical-align: middle; }
+        .admin-table th { background-color: #fff3e5; color: #f26b21; font-weight: 700; }
+        .admin-table tr:hover { background-color: #fbfbfb; }
+        
+        .img-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
+        
+        .badge { padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: 500; display: inline-block; }
+        .badge-active { background-color: #e6f4ea; color: #137333; }
+        .badge-hidden { background-color: #fce8e6; color: #cc3333; }
+        
+        .btn-delete-link { color: #cc3333; text-decoration: none; font-weight: 500; }
+        .btn-delete-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/admin/dashboard" class="logo" style="color: #333;">
+                🛠️ Hệ Thống Quản Trị Anh High
+            </a>
+            <div class="header-right">
+                <a href="/admin/dashboard">📋 Đơn Hàng</a>
+                <a href="/admin/danh-muc">📁 Danh Mục</a>
+                <a href="/admin/mon-an/them" style="color: #f26b21; font-weight: bold;">➕ THÊM MÓN MỚI</a>
+                <a href="/trang-chu">🖥️ Xem Trang Chủ</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="admin-layout">
+            <div class="admin-header">
+                <div class="admin-title">Danh Sách Thực Đơn Nhà Hàng</div>
+            </div>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Hình Ảnh</th>
+                        <th>Tên Món Ăn</th>
+                        <th>Danh Mục</th>
+                        <th>Đơn Giá</th>
+                        <th>Trạng Thái</th>
+                        <th>Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mon : ${monanList}">
+                        <td>
+                            <img th:src="${mon.hinhanh != null ? mon.hinhanh : 'https://cdn.tgdd.vn/Files/2021/08/04/1373024/cach-lam-com-tam-suon-bi-cha-chuan-vi-ngon-nhu-ngoai-hang-202201251608247065.jpg'}" class="img-thumb" alt="Món ăn">
+                        </td>
+                        <td style="font-weight: 600; color: #333;" th:text="${mon.tenmon}">Cơm Sườn</td>
+                        <td th:text="${mon.danhmuc.tendanhmuc}">Cơm Tấm</td>
+                        <td style="font-weight: 700; color: #f26b21;" th:text="${#numbers.formatDecimal(mon.dongia, 0, 'COMMA', 0, 'POINT')} + ' Đ'">45,000 Đ</td>
+                        <td>
+                            <span th:class="'badge ' + (${mon.trangthaiban == 1 ? 'badge-active' : 'badge-hidden'})"
+                                  th:text="${mon.trangthaiban == 1 ? 'Đang bán' : 'Hết hàng'}">Đang bán</span>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/mon-an/xoa/{id}(id=${mon.id})}" 
+                               class="btn-delete-link" 
+                               onclick="return confirm('Bro có chắc chắn muốn xóa món ăn này khỏi thực đơn không?')">Xóa món</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
