@@ -51,4 +51,14 @@ public class AdminService {
     public Danhmuc themDanhMucMoi(Danhmuc danhmucMoi) {
         return danhmucRepository.save(danhmucMoi);
     }
+    
+    // 5. Lấy tất cả món ăn hiện có trong cơ sở dữ liệu (Phục vụ trang quản lý thực đơn)
+    public List<Monan> layTatCaMonAn() {
+        return monanRepository.findAll();
+    }
+    
+    // 6. Xóa một món ăn khỏi thực đơn dựa vào ID
+    public void xoaMonAn(Integer id) {
+        monanRepository.deleteById(id);
+    }
 }

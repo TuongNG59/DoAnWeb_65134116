@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,5 +72,20 @@ public class AdminController {
     public String xuLyThemDanhMuc(@ModelAttribute("danhmucMoi") Danhmuc danhmucMoi) {
         adminService.themDanhMucMoi(danhmucMoi);
         return "redirect:/admin/danh-muc";
+    }
+    
+    // 7. Giao diện trang Quản lý danh sách món ăn (Mục 4.9.2 trong báo cáo)
+    @GetMapping("/mon-an")
+    public String quanLyMonAn(Model model) {
+        List<Monan> dsMonAn = adminService.layTatCaMonAn();
+        model.addAttribute("monanList", dsMonAn);
+        return "admin/danh-sach-mon-an"; // Trỏ về file danh-sach-mon-an.html trong thư mục templates/admin
+    }
+    
+    // 8. Xử lý yêu cầu Xóa món ăn
+    @GetMapping("/mon-an/xoa/{id}")
+    public String xuLyXoaMonAn(@PathVariable("id") Integer id) {
+        adminService.xoaMonAn(id);
+        return "redirect:/admin/mon-an"; // Xóa xong tải lại trang quản lý thực đơn
     }
 }
