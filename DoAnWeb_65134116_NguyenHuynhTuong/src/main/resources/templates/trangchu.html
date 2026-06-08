@@ -31,14 +31,15 @@
 			    </th:block>
 			
 			    <th:block th:if="${session.USER_LOGGED != null}">
-			        <a href="/gio-hang" class="btn-cart">🛒 Giỏ Hàng</a>
+			        
+			        <a th:if="${session.USER_LOGGED.vaitro == 'USER'}" href="/gio-hang" class="btn-cart">🛒 Giỏ Hàng</a>
 			        
 			        <span style="margin: 0 10px; font-weight: 600; color: #f26b21;">
-			            Chào, <span th:text="${session.USER_LOGGED.hoten}">User</span>!
+			            👋 Chào, <span th:text="${session.USER_LOGGED.hoten}">User</span>!
 			        </span>
 			
 			        <a th:if="${session.USER_LOGGED.vaitro != 'ADMIN'}" href="/dang-xuat" style="color: #666; margin-left: 10px; text-decoration: none;">Đăng xuất</a>
-			
+
 			        <button th:if="${session.USER_LOGGED.vaitro == 'ADMIN'}" class="hamburger-btn" onclick="toggleSidebar()">☰</button>
 			    </th:block>
 			</div>
@@ -105,11 +106,16 @@
 				<a th:href="@{/mon-an/{id}(id=${mon.id})}" style="text-decoration: none;"><h3 th:text="${mon.tenmon}">Cơm Sườn Bì</h3></a>
                 <div class="price" th:text="${#numbers.formatDecimal(mon.dongia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">45,000 VNĐ</div>
                 
-                <form th:action="@{/gio-hang/them}" method="post">
+                <form th:if="${session.USER_LOGGED == null || session.USER_LOGGED.vaitro == 'USER'}" th:action="@{/gio-hang/them}" method="post">
                     <input type="hidden" name="monanid" th:value="${mon.id}">
                     <input type="hidden" name="soluong" value="1">
                     <button type="submit" class="btn-add">THÊM VÀO GIỎ</button>
                 </form>
+
+                <div th:if="${session.USER_LOGGED != null && session.USER_LOGGED.vaitro == 'ADMIN'}" style="margin-top: 12px; text-align: center;">
+                    <span th:if="${mon.trangthaiban == 1}" style="background-color: #e6f4ea; color: #137333; padding: 5px 10px; border-radius: 6px; font-size: 13px; font-weight: 500;">🟢 Đang kinh doanh</span>
+                    <span th:if="${mon.trangthaiban == 0}" style="background-color: #fce8e6; color: #c5221f; padding: 5px 10px; border-radius: 6px; font-size: 13px; font-weight: 500;">🔴 Tạm dừng bán</span>
+                </div>
             </div>
         </div>
     </div>

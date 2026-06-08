@@ -33,7 +33,7 @@ public class AdminService {
     private TaikhoanRepository taikhoanRepository;
     
     @Transactional
-    
+   
     // 1. Lấy tất cả hóa đơn của quán ăn (Mới nhất xếp lên đầu)
     public List<Hoadon> layTatCaHoaDon() {
         return hoadonRepository.findAll();
@@ -100,5 +100,15 @@ public class AdminService {
         
         // Bước B: Sau khi các món ăn "con" đã sạch sẽ, tiến hành xóa danh mục "cha"
         danhmucRepository.deleteById(danhMucId);
+    }
+    
+    // 8.2 Chức năng Xóa mềm tài khoản (Khóa tài khoản để tránh lỗi ràng buộc hóa đơn)
+    public void xoaMemTaiKhoan(Integer id) {
+        Optional<Taikhoan> tkOpt = taikhoanRepository.findById(id);
+        if (tkOpt.isPresent()) {
+            Taikhoan tk = tkOpt.get();
+            tk.setTrangthai(0); // Ép trạng thái về 0 (Ngưng hoạt động / Bị xóa mềm)
+            taikhoanRepository.save(tk);
+        }
     }
 }

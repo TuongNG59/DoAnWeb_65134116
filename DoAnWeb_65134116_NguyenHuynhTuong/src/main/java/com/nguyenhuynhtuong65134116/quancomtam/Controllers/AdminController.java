@@ -149,4 +149,11 @@ public class AdminController {
         adminService.doiVaiTroTaiKhoan(id, vaitro);
         return "redirect:/admin/tai-khoan"; // Xử lý xong tải lại trang quản lý thành viên
     }
+    
+    // 10.2 Xử lý yêu cầu Xóa mềm (Khóa) tài khoản thành viên
+    @GetMapping("/tai-khoan/xoa/{id}")
+    public String xuLyXoaTaiKhoan(@PathVariable("id") Integer id) {
+        adminService.xoaMemTaiKhoan(id);
+        return "redirect:/admin/tai-khoan"; // Xử lý xong tải lại trang quản lý thành viên luôn
+    }
 }

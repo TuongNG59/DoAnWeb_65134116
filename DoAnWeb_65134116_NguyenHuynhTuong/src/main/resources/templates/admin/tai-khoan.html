@@ -26,7 +26,6 @@
 </head>
 <body>
 
-    <!-- Header Admin -->
     <header class="header">
         <div class="container">
             <a href="/admin/dashboard" class="logo" style="color: #333;">
@@ -47,18 +46,17 @@
                 <div class="admin-title">Danh Sách Thành Viên Hệ Thống</div>
             </div>
 
-            <!-- Bảng hiển thị danh sách tài khoản -->
             <table class="admin-table">
-				<thead>
+                <thead>
                     <tr>
                         <th>Mã Khách</th>
                         <th>Họ và Tên</th>
                         <th>Email Đăng Nhập</th>
-                        <th>Ngày Tham Gia</th> <th>Vai Trò Hiện Tại</th>
-                        <th>Thay Đổi Quyền</th>
-                    </tr>
+                        <th>Ngày Tham Gia</th> 
+                        <th>Vai Trò Hiện Tại</th>
+                        <th>Trạng Thái</th> <th style="width: 300px;">Hành Động / Cấp Quyền</th> </tr>
                 </thead>
-				<tbody>
+                <tbody>
                     <tr th:each="tk : ${taikhoanList}">
                         <td th:text="'#' + ${tk.id}">#1</td>
                         <td style="font-weight: 600; color: #333;" th:text="${tk.hoten}">Nguyễn Văn A</td>
@@ -70,21 +68,46 @@
                             <span th:class="'badge ' + (${tk.vaitro == 'ADMIN' ? 'badge-admin' : 'badge-user'})"
                                   th:text="${tk.vaitro}">USER</span>
                         </td>
+                        
                         <td>
-                            <form th:action="@{/admin/tai-khoan/doi-vai-tro}" method="post" style="display: flex; align-items: center;">
-                                <input type="hidden" name="id" th:value="${tk.id}">
-                                <select name="vaitro" class="select-role">
-                                    <option value="USER" th:selected="${tk.vaitro == 'USER'}">Khách Hàng (USER)</option>
-                                    <option value="ADMIN" th:selected="${tk.vaitro == 'ADMIN'}">Quản Trị (ADMIN)</option>
-                                </select>
-                                <button type="submit" class="btn-save-role">Lưu quyền</button>
-                            </form>
+                            <span th:if="${tk.trangthai == 1}" class="badge" style="background-color: #e6f4ea; color: #137333;">Đang chạy</span>
+                            <span th:if="${tk.trangthai == 0}" class="badge" style="background-color: #fce8e6; color: #c5221f;">Đã khóa</span>
+                        </td>
+                        
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                
+                                <form th:action="@{/admin/tai-khoan/doi-vai-tro}" method="post" style="display: flex; align-items: center; margin: 0;">
+                                    <input type="hidden" name="id" th:value="${tk.id}">
+                                    <select name="vaitro" class="select-role">
+                                        <option value="USER" th:selected="${tk.vaitro == 'USER'}">Khách Hàng (USER)</option>
+                                        <option value="ADMIN" th:selected="${tk.vaitro == 'ADMIN'}">Quản Trị (ADMIN)</option>
+                                    </select>
+                                    <button type="submit" class="btn-save-role">Lưu quyền</button>
+                                </form>
+
+                                <a th:if="${tk.trangthai == 1}" 
+                                   th:href="@{/admin/tai-khoan/xoa/{id}(id=${tk.id})}" 
+                                   class="btn-delete"
+                                   onclick="return confirm('⚠️ Cảnh báo bảo mật: Cậu có chắc chắn muốn XÓA (Khóa quyền truy cập) thành viên này không? Toàn bộ đơn hàng cũ của họ vẫn được giữ nguyên để làm báo cáo.')"
+                                   style="color: #cc3333; text-decoration: none; font-weight: 600; font-size: 13px; padding: 6px 12px; background: #fce8e6; border-radius: 6px; display: inline-block; transition: 0.2s;">
+                                    ❌ Xóa
+                                </a>
+                                
+                                <span th:if="${tk.trangthai == 0}" 
+                                      style="color: #777; font-size: 13px; font-weight: 500; font-style: italic; padding: 6px 12px; background: #f1f3f4; border-radius: 6px; display: inline-block;">
+                                    🚫 Đã ẩn
+                                </span>
+                                
+                            </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+</body>
 
 </body>
 </html>
