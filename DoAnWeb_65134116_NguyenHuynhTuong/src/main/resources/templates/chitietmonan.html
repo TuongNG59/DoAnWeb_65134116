@@ -81,7 +81,7 @@
             <div th:if="${session.USER_LOGGED != null}">
                 <form th:action="@{/binh-luan/gui}" method="post" class="comment-form">
                     <input type="hidden" name="monanid" th:value="${monan.id}">
-                    <textarea name="noidung" rows="3" placeholder="Đĩa cơm tấm này có vừa vị với bro không? Để lại đánh giá tại đây nhé..." required></textarea>
+                    <textarea name="noidung" rows="3" placeholder="Đĩa cơm tấm này có vừa vị với bạn không? Để lại đánh giá tại đây nhé..." required></textarea>
                     <button type="submit" class="btn-add" style="border-radius: 8px; padding: 10px 20px;">Gửi nhận xét</button>
                 </form>
             </div>

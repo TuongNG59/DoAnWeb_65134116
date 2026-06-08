@@ -33,8 +33,10 @@ public class Hoadon {
     @Column(nullable = false, length = 50)
     private String trangthai = "Chờ xác nhận";
 
+    @Column(name = "sdtnhan")
     private String sodienthoai;
 
+    @Column(name = "diachinhan")
     private String diachigiaohang;
 
     private String ghichu;
