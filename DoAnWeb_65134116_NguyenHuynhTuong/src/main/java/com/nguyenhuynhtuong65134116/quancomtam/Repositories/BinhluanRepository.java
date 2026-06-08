@@ -10,6 +10,6 @@ import com.nguyenhuynhtuong65134116.quancomtam.Entities.Monan;
 
 @Repository
 public interface BinhluanRepository extends JpaRepository<Binhluan, Integer> {
-    // Lấy tất cả các bình luận của một món ăn cụ thể để hiển thị lên trang chi tiết món ăn
-    List<Binhluan> findByMonanOrderByIdDesc(Monan monan);
+    // Lấy danh sách bình luận của một món ăn cụ thể (Mới nhất xếp lên đầu)
+    List<Binhluan> findByMonanIdOrderByIdDesc(Integer monanId);
 }
