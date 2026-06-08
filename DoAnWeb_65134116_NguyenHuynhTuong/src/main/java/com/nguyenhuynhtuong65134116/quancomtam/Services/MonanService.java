@@ -36,4 +36,9 @@ public class MonanService {
         }
         return layMonAnDangBan(); // Nếu từ khóa trống thì trả về tất cả món đang bán
     }
+    
+    // 4. Tìm kiếm chi tiết một món ăn theo ID
+    public Monan layMonAnTheoId(Integer id) {
+        return monanRepository.findById(id).orElse(null);
+    }
 }

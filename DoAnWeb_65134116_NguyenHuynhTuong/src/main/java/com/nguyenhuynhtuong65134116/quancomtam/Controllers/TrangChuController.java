@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Danhmuc;
@@ -41,5 +42,16 @@ public class TrangChuController {
         model.addAttribute("monanList", danhSachMonAn);
         
         return "trangchu"; // Sẽ khớp với file trangchu.html
+    }
+    
+    // Hiển thị trang chi tiết món ăn
+    @GetMapping("/mon-an/{id}")
+    public String hienThiChiTietMonAn(@PathVariable("id") Integer id, Model model) {
+        Monan monan = monanService.layMonAnTheoId(id);
+        if (monan == null) {
+            return "redirect:/trang-chu"; // Nếu không tìm thấy món thì đá về trang chủ
+        }
+        model.addAttribute("monan", monan);
+        return "chitietmonan"; // Sẽ khớp với file chitietmonan.html ở Bước 3
     }
 }

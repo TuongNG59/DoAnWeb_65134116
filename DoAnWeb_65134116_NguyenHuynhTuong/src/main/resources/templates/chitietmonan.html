@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Món Ăn - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .detail-layout { display: flex; gap: 40px; margin-top: 40px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); align-items: center; }
+        .detail-image { flex: 1; text-align: center; }
+        .detail-image img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .detail-info { flex: 1; }
+        .detail-title { font-size: 28px; font-weight: 700; color: #222; margin-bottom: 10px; }
+        .detail-category { font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .detail-price { font-size: 24px; font-weight: 700; color: #f26b21; margin-bottom: 20px; }
+        .detail-desc { font-size: 16px; color: #666; line-height: 1.6; margin-bottom: 25px; }
+        
+        .qty-input { width: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 16px; font-weight: bold; margin-right: 15px; outline: none; }
+        .qty-input:focus { border-color: #f26b21; }
+        .note-input { width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 20px; outline: none; }
+        .note-input:focus { border-color: #f26b21; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/trang-chu" class="logo">
+                <img th:src="@{/images/logo.png}" class="logo-img" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/562/562678.png'">
+                Cơm Tấm Anh High
+            </a>
+            <div class="header-right">
+                <a href="/trang-chu">🏠 Thực Đơn</a>
+                <a href="/gio-hang" class="btn-cart">🛒 Giỏ Hàng</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="detail-layout">
+            <!-- Bên trái: Ảnh to khổng lồ của món ăn -->
+            <div class="detail-image">
+                <img th:src="${monan.hinhanh != null ? monan.hinhanh : 'https://cdn.tgdd.vn/Files/2021/08/04/1373024/cach-lam-com-tam-suon-bi-cha-chuan-vi-ngon-nhu-ngoai-hang-202201251608247065.jpg'}" alt="Món ăn">
+            </div>
+            
+            <!-- Bên phải: Thông tin đặt hàng -->
+            <div class="detail-info">
+                <div class="detail-category" th:text="${monan.danhmuc.tendanhmuc}">DANH MỤC</div>
+                <div class="detail-title" th:text="${monan.tenmon}">Tên món ăn</div>
+                <div class="detail-price" th:text="${#numbers.formatDecimal(monan.dongia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">45,000 VNĐ</div>
+                <div class="detail-desc">Món ăn được chế biến từ nguyên liệu tươi ngon trong ngày, đảm bảo an toàn vệ sinh thực phẩm. Hương vị độc quyền mang thương hiệu Quán Cơm Tấm Anh High sẽ khiến bro không thể quên!</div>
+                
+                <!-- Form chốt số lượng và ghi chú gửi lên giỏ hàng -->
+                <form th:action="@{/gio-hang/them}" method="post">
+                    <input type="hidden" name="monanid" th:value="${monan.id}">
+                    
+                    <div style="margin-bottom: 10px; font-weight: 500; color: #555;">Ghi chú yêu cầu thêm (Topping, dưa leo...):</div>
+                    <input type="text" name="ghichu" class="note-input" placeholder="Ví dụ: Nhiều mỡ hành, không lấy tóp mỡ...">
+
+                    <div style="display: flex; align-items: center;">
+                        <input type="number" name="soluong" class="qty-input" value="1" min="1" max="20">
+                        <button type="submit" class="btn-main" style="flex: 1; padding: 12px 0; border-radius: 8px;">THÊM VÀO GIỎ HÀNG</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -61,7 +61,7 @@
             <div class="food-card" th:each="mon : ${monanList}">
                 <img th:src="${mon.hinhanh != null ? mon.hinhanh : 'https://cdn.tgdd.vn/Files/2021/08/04/1373024/cach-lam-com-tam-suon-bi-cha-chuan-vi-ngon-nhu-ngoai-hang-202201251608247065.jpg'}" alt="Món ăn">
                 
-                <h3 th:text="${mon.tenmon}">Cơm Sườn Bì</h3>
+				<a th:href="@{/mon-an/{id}(id=${mon.id})}" style="text-decoration: none;"><h3 th:text="${mon.tenmon}">Cơm Sườn Bì</h3></a>
                 <div class="price" th:text="${#numbers.formatDecimal(mon.dongia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">45,000 VNĐ</div>
                 
                 <form th:action="@{/gio-hang/them}" method="post">
