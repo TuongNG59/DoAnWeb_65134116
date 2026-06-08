@@ -1,6 +1,11 @@
 package com.nguyenhuynhtuong65134116.quancomtam.Controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Danhmuc;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Hoadon;
@@ -53,11 +59,43 @@ public class AdminController {
         return "admin/them-mon-an"; // Trỏ về file them-mon-an.html trong thư mục templates/admin
     }
 
-    // 4. Xử lý lưu dữ liệu Form thêm món ăn gửi lên
+    // 4. Xử lý lưu dữ liệu Form thêm món ăn gửi lên (Có Upload Ảnh)
     @PostMapping("/mon-an/them")
-    public String xuLyThemMonAn(@ModelAttribute("monanMoi") Monan monanMoi) {
+    public String xuLyThemMonAn(@ModelAttribute("monanMoi") Monan monanMoi,
+                                 @RequestParam("fileAnh") MultipartFile fileAnh) {
+        
+        // Kiểm tra xem Admin có bấm chọn file ảnh thực sự không
+        if (!fileAnh.isEmpty()) {
+            try {
+                // Đường dẫn trỏ thẳng vào thư mục chứa ảnh tĩnh tĩnh static/images trong đồ án của cậu
+                String folderUpload = "src/main/resources/static/images/";
+                
+                // Tự động tạo một cái tên ngẫu nhiên độc nhất bằng UUID để tránh bị trùng tên file ảnh (Vd: sườn.jpg trùng sườn.jpg)
+                String tenFileGoc = fileAnh.getOriginalFilename();
+                String duoiFile = tenFileGoc.substring(tenFileGoc.lastIndexOf("."));
+                String tenFileMoi = UUID.randomUUID().toString() + duoiFile;
+                
+                // Thực hiện lưu file ảnh vật lý xuống ổ cứng máy tính
+                byte[] bytes = fileAnh.getBytes();
+                Path path = Paths.get(folderUpload + tenFileMoi);
+                Files.write(path, bytes);
+                
+                // Ghi cái đường dẫn nội bộ này vào cột hinhanh dưới Database để sau này Thymeleaf lôi ra dùng
+                monanMoi.setHinhanh("/images/" + tenFileMoi);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Nếu quá trình lưu file bị lỗi, gán tạm ảnh mặc định để hệ thống không bị sập lỗi 500
+                monanMoi.setHinhanh("https://cdn-icons-png.flaticon.com/512/562/562678.png");
+            }
+        } else {
+            // Nếu không chọn ảnh, gán ảnh icon mặc định
+            monanMoi.setHinhanh("https://cdn-icons-png.flaticon.com/512/562/562678.png");
+        }
+
+        // Lưu món ăn mới đã có ảnh nội bộ xuống Database thông qua Service
         adminService.themMonAnMoi(monanMoi);
-        return "redirect:/trang-chu"; // Thêm xong nhảy ra trang chủ xem món mới xuất hiện chưa liền
+        return "redirect:/trang-chu"; // Thêm xong nhảy ra trang chủ xem đĩa cơm nổ hình lên chưa liền luôn!
     }
     
     // 5. Giao diện trang Quản lý danh mục thể loại 

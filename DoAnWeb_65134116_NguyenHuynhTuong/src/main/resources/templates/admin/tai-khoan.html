@@ -49,30 +49,28 @@
 
             <!-- Bảng hiển thị danh sách tài khoản -->
             <table class="admin-table">
-                <thead>
+				<thead>
                     <tr>
                         <th>Mã Khách</th>
                         <th>Họ và Tên</th>
                         <th>Email Đăng Nhập</th>
-                        <th>Số Điện Thoại</th>
-                        <th>Vai Trò Hiện Tại</th>
+                        <th>Ngày Tham Gia</th> <th>Vai Trò Hiện Tại</th>
                         <th>Thay Đổi Quyền</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Lặp đổ dữ liệu tài khoản -->
+				<tbody>
                     <tr th:each="tk : ${taikhoanList}">
                         <td th:text="'#' + ${tk.id}">#1</td>
                         <td style="font-weight: 600; color: #333;" th:text="${tk.hoten}">Nguyễn Văn A</td>
                         <td th:text="${tk.email}">nguyenvana@gmail.com</td>
-                        <td th:text="${tk.sodienthoai != null ? tk.sodienthoai : 'Chưa cập nhật'}">0901234567</td>
+                        
+                        <td th:text="${tk.ngaytao != null ? tk.ngaytao : 'Chưa rõ'}">08/06/2026</td>
+                        
                         <td>
-                            <!-- Hiện màu sắc badge tùy theo vai trò -->
                             <span th:class="'badge ' + (${tk.vaitro == 'ADMIN' ? 'badge-admin' : 'badge-user'})"
                                   th:text="${tk.vaitro}">USER</span>
                         </td>
                         <td>
-                            <!-- Form thay đổi nhanh vai trò thành viên -->
                             <form th:action="@{/admin/tai-khoan/doi-vai-tro}" method="post" style="display: flex; align-items: center;">
                                 <input type="hidden" name="id" th:value="${tk.id}">
                                 <select name="vaitro" class="select-role">
