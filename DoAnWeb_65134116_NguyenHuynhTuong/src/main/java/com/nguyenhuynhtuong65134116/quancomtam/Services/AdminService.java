@@ -15,6 +15,8 @@ import com.nguyenhuynhtuong65134116.quancomtam.Repositories.HoadonRepository;
 import com.nguyenhuynhtuong65134116.quancomtam.Repositories.MonanRepository;
 import com.nguyenhuynhtuong65134116.quancomtam.Repositories.TaikhoanRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AdminService {
 
@@ -29,6 +31,8 @@ public class AdminService {
     
     @Autowired
     private TaikhoanRepository taikhoanRepository;
+    
+    @Transactional
     
     // 1. Lấy tất cả hóa đơn của quán ăn (Mới nhất xếp lên đầu)
     public List<Hoadon> layTatCaHoaDon() {
@@ -80,5 +84,21 @@ public class AdminService {
             tk.setVaitro(vaiTroMoi);
             taikhoanRepository.save(tk);
         }
+    }
+    
+    //Xử lý xóa danh mục an toàn
+    public void xoaDanhMucAnToan(Integer danhMucId) {
+        // Bước A: Tìm và xóa tất cả các món ăn thuộc danh mục này trước
+        // (Cậu kiểm tra xem MonanRepository của cậu có hàm findByDanhmucId hoặc tương tự không)
+        // Nếu chưa có, ta có thể dùng ra lệnh xóa dựa vào Id danh mục:
+        List<Monan> dsMonAnThuocDanhMuc = monanRepository.findAll();
+        for (Monan monan : dsMonAnThuocDanhMuc) {
+            if (monan.getDanhmuc() != null && monan.getDanhmuc().getId().equals(danhMucId)) {
+                monanRepository.delete(monan);
+            }
+        }
+        
+        // Bước B: Sau khi các món ăn "con" đã sạch sẽ, tiến hành xóa danh mục "cha"
+        danhmucRepository.deleteById(danhMucId);
     }
 }

@@ -113,6 +113,13 @@ public class AdminController {
         return "redirect:/admin/danh-muc";
     }
     
+    // 6.2 Xử lý yêu cầu Xóa danh mục thể loại
+    @GetMapping("/danh-muc/xoa/{id}")
+    public String xuLyXoaDanhMuc(@PathVariable("id") Integer id) {
+        adminService.xoaDanhMucAnToan(id);
+        return "redirect:/admin/danh-muc"; // Xóa xong tải lại trang quản lý danh mục liền
+    }
+    
     // 7. Giao diện trang Quản lý danh sách món ăn (Mục 4.9.2 trong báo cáo)
     @GetMapping("/mon-an")
     public String quanLyMonAn(Model model) {

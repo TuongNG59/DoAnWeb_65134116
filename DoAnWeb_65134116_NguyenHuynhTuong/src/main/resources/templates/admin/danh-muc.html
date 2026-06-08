@@ -44,17 +44,25 @@
             
             <div class="layout-left">
                 <div class="admin-title">Danh Mục Thực Đơn Hiện Có</div>
-                <table class="admin-table">
+				<table class="admin-table">
                     <thead>
                         <tr>
-                            <th style="width: 30%;">Mã Danh Mục</th>
-                            <th style="width: 70%;">Tên Danh Mục Thể Loại</th>
-                        </tr>
+                            <th style="width: 20%;">Mã Danh Mục</th>
+                            <th style="width: 50%;">Tên Danh Mục Thể Loại</th>
+                            <th style="width: 30%;">Hành Động</th> </tr>
                     </thead>
                     <tbody>
                         <tr th:each="dm : ${danhmucList}">
                             <td th:text="'#' + ${dm.id}">#1</td>
                             <td style="font-weight: 500; color: #333;" th:text="${dm.tendanhmuc}">Cơm Tấm</td>
+                            <td>
+                                <a th:href="@{/admin/danh-muc/xoa/{id}(id=${dm.id})}" 
+                                   class="btn-delete"
+                                   onclick="return confirm('⚠️ CẢNH BÁO: Xóa danh mục này sẽ xóa TOÀN BỘ các món ăn thuộc danh mục này! Cậu có chắc chắn muốn xóa không?')"
+                                   style="color: #cc3333; text-decoration: none; font-weight: 600; font-size: 14px;">
+                                    ❌ Xóa
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
