@@ -60,7 +60,7 @@
                 <div class="detail-category" th:text="${monan.danhmuc.tendanhmuc}">DANH MỤC</div>
                 <div class="detail-title" th:text="${monan.tenmon}">Tên món ăn</div>
                 <div class="detail-price" th:text="${#numbers.formatDecimal(monan.dongia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">45,000 VNĐ</div>
-                <div class="detail-desc">Món ăn được chế biến từ nguyên liệu tươi ngon trong ngày, đảm bảo an toàn vệ sinh thực phẩm. Hương vị độc quyền mang thương hiệu Quán Cơm Tấm Anh High sẽ khiến bro không thể quên!</div>
+                <div class="detail-desc">Món ăn được chế biến từ nguyên liệu tươi ngon trong ngày, đảm bảo an toàn vệ sinh thực phẩm. Hương vị độc quyền mang thương hiệu Quán Cơm Tấm Anh High sẽ khiến bạn không thể quên!</div>
                 
                 <form th:action="@{/gio-hang/them}" method="post">
                     <input type="hidden" name="monanid" th:value="${monan.id}">
