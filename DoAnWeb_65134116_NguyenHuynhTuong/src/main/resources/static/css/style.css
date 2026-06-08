@@ -117,3 +117,98 @@ body { background-color: #f4f5f7; color: #333; }
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(242, 107, 33, 0.5);
 }
+
+/* Nút 3 gạch */
+.hamburger-btn {
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: #333;
+    cursor: pointer;
+    padding: 0 10px;
+    vertical-align: middle;
+    transition: color 0.2s;
+}
+.hamburger-btn:hover { color: #f26b21; }
+
+/* Khung Sidebar dọc bên phải */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Đẩy hẳn ra ngoài màn hình bên phải */
+    width: 300px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    z-index: 9999;
+    transition: right 0.3s ease; /* Tạo hiệu ứng trượt mượt mà */
+    padding-top: 60px;
+    box-sizing: border-box;
+}
+
+/* Khi Sidebar hoạt động (mở ra) */
+.sidebar.active {
+    right: 0; /* Kéo trượt vào trong màn hình */
+}
+
+/* Nút đóng dấu X */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+}
+.close-btn:hover { color: #333; }
+
+/* Các đường link trong menu dọc */
+.sidebar-menu a {
+    display: block;
+    padding: 14px 25px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-left: 4px solid transparent;
+    transition: all 0.2s;
+}
+.sidebar-menu a:hover {
+    background-color: #fcf1eb;
+    color: #f26b21;
+    border-left-color: #f26b21;
+}
+
+/* Phân ranh giới vùng Admin */
+.admin-divider {
+    padding: 15px 20px 5px 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #a0a0a0;
+    letter-spacing: 1px;
+}
+.sidebar-menu a.admin-link {
+    color: #444;
+    background-color: #f8f9fa;
+    margin-bottom: 2px;
+}
+.sidebar-menu a.admin-link:hover {
+    background-color: #e9ecef;
+    color: #000;
+    border-left-color: #495057;
+}
+
+/* Lớp nền mờ đen phía sau khi mở menu */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+    display: none; /* Mặc định ẩn */
+}
+.sidebar-overlay.active { display: block; }

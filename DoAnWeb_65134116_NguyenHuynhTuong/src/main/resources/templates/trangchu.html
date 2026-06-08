@@ -5,6 +5,16 @@
     <title>Quán Cơm Tấm Anh High</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById("rightSidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        
+        // Bật tắt class active của css để đóng/mở
+        sidebar.classList.toggle("active");
+        overlay.classList.toggle("active");
+    }
+</script>
 <body>
 
     <header class="header">
@@ -14,17 +24,49 @@
                 Cơm Tấm Anh High
             </a>
             
-            <div class="header-right">
-                <span th:if="${session.USER_LOGGED == null}">
-                    <a href="/dang-nhap">Đăng Nhập</a>
-                    <a href="/dang-ky">Đăng Ký</a>
-                </span>
-                <span th:if="${session.USER_LOGGED != null}">
-                    Xin chào, <b th:text="${session.USER_LOGGED.hoten}">User</b>!
-                    <a href="/dang-xuat" style="color: red;">Đăng xuất</a>
-                </span>
-                <a href="/gio-hang" class="btn-cart">🛒 Giỏ Hàng</a>
-            </div>
+			<div class="header-right">
+			    <th:block th:if="${session.USER_LOGGED == null}">
+			        <a href="/dang-nhap" class="btn-login">Đăng Nhập</a>
+			        <a href="/dang-ky" class="btn-register">Đăng Ký</a>
+			    </th:block>
+			
+			    <th:block th:if="${session.USER_LOGGED != null}">
+			        <a href="/gio-hang" class="btn-cart">🛒 Giỏ Hàng</a>
+			        
+			        <span style="margin: 0 10px; font-weight: 600; color: #f26b21;">
+			            Chào, <span th:text="${session.USER_LOGGED.hoten}">User</span>!
+			        </span>
+			
+			        <a th:if="${session.USER_LOGGED.vaitro != 'ADMIN'}" href="/dang-xuat" style="color: #666; margin-left: 10px; text-decoration: none;">Đăng xuất</a>
+			
+			        <button th:if="${session.USER_LOGGED.vaitro == 'ADMIN'}" class="hamburger-btn" onclick="toggleSidebar()">☰</button>
+			    </th:block>
+			</div>
+			
+			<div id="rightSidebar" class="sidebar">
+			    <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+			    
+			    <div class="sidebar-menu">
+			        <h3 style="padding: 0 20px; color: #888; font-size: 14px; text-transform: uppercase;">Menu Hệ Thống</h3>
+			        
+			        <a href="/trang-chu">🏠 Trang Chủ Thực Đơn</a>
+			        <a href="/gio-hang">🛒 Xem Giỏ Hàng Của Bạn</a>
+			        
+			        <th:block th:if="${session.USER_LOGGED != null && session.USER_LOGGED.vaitro == 'ADMIN'}">
+			            <div class="admin-divider">PHÂN HỆ QUẢN TRỊ</div>
+			            <a href="/admin/dashboard" class="admin-link">📊 Dashboard Đơn Hàng</a>
+			            <a href="/admin/mon-an" class="admin-link">🍔 Quản Lý Món Ăn</a>
+			            <a href="/admin/mon-an/them" class="admin-link">➕ Thêm Món Ăn Mới</a>
+			            <a href="/admin/danh-muc" class="admin-link">📁 Quản Lý Danh Mục</a>
+			            <a href="/admin/tai-khoan" class="admin-link">👥 Quản Lý Tài Khoản</a>
+			        </th:block>
+			        
+			        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+			        <a href="/dang-xuat" style="color: #cc3333; font-weight: 600;">🚪 Đăng Xuất</a>
+			    </div>
+			</div>
+			
+			<div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
         </div>
     </header>
 
