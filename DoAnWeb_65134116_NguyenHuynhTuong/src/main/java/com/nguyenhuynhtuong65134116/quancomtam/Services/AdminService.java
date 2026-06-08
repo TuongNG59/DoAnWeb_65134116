@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Danhmuc;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Hoadon;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Monan;
+import com.nguyenhuynhtuong65134116.quancomtam.Entities.Taikhoan;
 import com.nguyenhuynhtuong65134116.quancomtam.Repositories.DanhmucRepository;
 import com.nguyenhuynhtuong65134116.quancomtam.Repositories.HoadonRepository;
 import com.nguyenhuynhtuong65134116.quancomtam.Repositories.MonanRepository;
+import com.nguyenhuynhtuong65134116.quancomtam.Repositories.TaikhoanRepository;
 
 @Service
 public class AdminService {
@@ -24,6 +26,9 @@ public class AdminService {
 
     @Autowired
     private DanhmucRepository danhmucRepository;
+    
+    @Autowired
+    private TaikhoanRepository taikhoanRepository;
     
     // 1. Lấy tất cả hóa đơn của quán ăn (Mới nhất xếp lên đầu)
     public List<Hoadon> layTatCaHoaDon() {
@@ -60,5 +65,20 @@ public class AdminService {
     // 6. Xóa một món ăn khỏi thực đơn dựa vào ID
     public void xoaMonAn(Integer id) {
         monanRepository.deleteById(id);
+    }
+    
+    // 7. Lấy danh sách tất cả tài khoản trong hệ thống (Đã sửa ngắn gọn nhờ import)
+    public List<Taikhoan> layTatCaTaiKhoan() {
+        return taikhoanRepository.findAll();
+    }
+    
+    // 8. Đổi vai trò của thành viên (Đã sửa ngắn gọn nhờ import)
+    public void doiVaiTroTaiKhoan(Integer id, String vaiTroMoi) {
+        Optional<Taikhoan> tkOpt = taikhoanRepository.findById(id);
+        if (tkOpt.isPresent()) {
+            Taikhoan tk = tkOpt.get();
+            tk.setVaitro(vaiTroMoi);
+            taikhoanRepository.save(tk);
+        }
     }
 }

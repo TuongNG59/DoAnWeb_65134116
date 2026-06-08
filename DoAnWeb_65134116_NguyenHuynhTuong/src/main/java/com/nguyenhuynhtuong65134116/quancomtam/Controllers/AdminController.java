@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Danhmuc;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Hoadon;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Monan;
+import com.nguyenhuynhtuong65134116.quancomtam.Entities.Taikhoan;
 import com.nguyenhuynhtuong65134116.quancomtam.Services.AdminService;
 import com.nguyenhuynhtuong65134116.quancomtam.Services.MonanService;
 
@@ -87,5 +88,20 @@ public class AdminController {
     public String xuLyXoaMonAn(@PathVariable("id") Integer id) {
         adminService.xoaMonAn(id);
         return "redirect:/admin/mon-an"; // Xóa xong tải lại trang quản lý thực đơn
+    }
+    
+    // 9. Giao diện trang Quản lý tài khoản (Mục 4.9.3 trong báo cáo)
+    @GetMapping("/tai-khoan")
+    public String quanLyTaiKhoan(Model model) {
+        List<Taikhoan> dsTaiKhoan = adminService.layTatCaTaiKhoan();
+        model.addAttribute("taikhoanList", dsTaiKhoan);
+        return "admin/tai-khoan";
+    }
+    
+    // 10. Xử lý yêu cầu Thay đổi vai trò tài khoản
+    @PostMapping("/tai-khoan/doi-vai-tro")
+    public String xuLyDoiVaiTro(@RequestParam("id") Integer id, @RequestParam("vaitro") String vaitro) {
+        adminService.doiVaiTroTaiKhoan(id, vaitro);
+        return "redirect:/admin/tai-khoan"; // Xử lý xong tải lại trang quản lý thành viên
     }
 }
