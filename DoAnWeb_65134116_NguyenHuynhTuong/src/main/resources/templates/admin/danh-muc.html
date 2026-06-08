@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Danh Mục - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .admin-layout { margin-top: 30px; display: flex; gap: 30px; align-items: flex-start; }
+        .layout-left { flex: 2; background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .layout-right { flex: 1; background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); position: sticky; top: 20px; }
+        
+        .admin-title { font-size: 22px; font-weight: 700; color: #222; margin-bottom: 20px; border-bottom: 2px solid #f4f5f7; padding-bottom: 10px; }
+        
+        /* CSS Bảng dữ liệu */
+        .admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .admin-table th, .admin-table td { padding: 12px 15px; border-bottom: 1px solid #f4f5f7; font-size: 15px; }
+        .admin-table th { background-color: #fff3e5; color: #f26b21; font-weight: 700; }
+        .admin-table tr:hover { background-color: #fbfbfb; }
+
+        /* Form nhập liệu */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; color: #555; }
+        .form-group input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 14px; }
+        .form-group input:focus { border-color: #f26b21; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/admin/dashboard" class="logo" style="color: #333;">
+                🛠️ Hệ Thống Quản Trị Anh High
+            </a>
+            <div class="header-right">
+                <a href="/admin/dashboard">📋 Đơn Hàng</a>
+                <a href="/admin/mon-an/them">➕ Thêm Món Mới</a>
+                <a href="/trang-chu">🖥️ Xem Trang Chủ</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="admin-layout">
+            
+            <div class="layout-left">
+                <div class="admin-title">Danh Mục Thực Đơn Hiện Có</div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Mã Danh Mục</th>
+                            <th style="width: 70%;">Tên Danh Mục Thể Loại</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="dm : ${danhmucList}">
+                            <td th:text="'#' + ${dm.id}">#1</td>
+                            <td style="font-weight: 500; color: #333;" th:text="${dm.tendanhmuc}">Cơm Tấm</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="layout-right">
+                <div class="admin-title">Tạo Danh Mục Mới</div>
+                <form th:action="@{/admin/danh-muc/them}" th:object="${danhmucMoi}" method="post">
+                    <div class="form-group">
+                        <label>Tên danh mục mới</label>
+                        <input type="text" th:field="*{tendanhmuc}" placeholder="Ví dụ: Món Ăn Kèm, Nước Ép..." required>
+                    </div>
+                    <button type="submit" class="btn-main-wide" style="width: 100%; margin: 15px 0 0 0; padding: 12px 0; font-size: 15px;">💾 LƯU DANH MỤC</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

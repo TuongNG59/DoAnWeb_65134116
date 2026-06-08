@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nguyenhuynhtuong65134116.quancomtam.Entities.Danhmuc;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Hoadon;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Monan;
 import com.nguyenhuynhtuong65134116.quancomtam.Services.AdminService;
@@ -55,5 +56,20 @@ public class AdminController {
     public String xuLyThemMonAn(@ModelAttribute("monanMoi") Monan monanMoi) {
         adminService.themMonAnMoi(monanMoi);
         return "redirect:/trang-chu"; // Thêm xong nhảy ra trang chủ xem món mới xuất hiện chưa liền
+    }
+    
+    // 5. Giao diện trang Quản lý danh mục thể loại 
+    @GetMapping("/danh-muc")
+    public String quanLyDanhMuc(Model model) {
+        model.addAttribute("danhmucList", monanService.layTatCaDanhMuc());
+        model.addAttribute("danhmucMoi", new Danhmuc());
+        return "admin/danh-muc";
+    }
+    
+    // 6. Xử lý dữ liệu Form thêm danh mục mới gửi lên
+    @PostMapping("/danh-muc/them")
+    public String xuLyThemDanhMuc(@ModelAttribute("danhmucMoi") Danhmuc danhmucMoi) {
+        adminService.themDanhMucMoi(danhmucMoi);
+        return "redirect:/admin/danh-muc";
     }
 }
