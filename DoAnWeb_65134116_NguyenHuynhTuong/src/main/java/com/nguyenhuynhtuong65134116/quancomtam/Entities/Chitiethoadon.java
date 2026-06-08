@@ -30,7 +30,7 @@ public class Chitiethoadon {
     @Column(nullable = false)
     private Integer soluong;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(name = "dongiaban", nullable = false, precision = 10, scale = 2)
     private BigDecimal dongiaban;
 
     private String ghichutopping;
