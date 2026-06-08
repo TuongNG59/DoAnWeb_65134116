@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nguyenhuynhtuong65134116.quancomtam.Entities.Danhmuc;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Hoadon;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Monan;
+import com.nguyenhuynhtuong65134116.quancomtam.Repositories.DanhmucRepository;
 import com.nguyenhuynhtuong65134116.quancomtam.Repositories.HoadonRepository;
 import com.nguyenhuynhtuong65134116.quancomtam.Repositories.MonanRepository;
 
@@ -20,6 +22,9 @@ public class AdminService {
     @Autowired
     private MonanRepository monanRepository;
 
+    @Autowired
+    private DanhmucRepository danhmucRepository;
+    
     // 1. Lấy tất cả hóa đơn của quán ăn (Mới nhất xếp lên đầu)
     public List<Hoadon> layTatCaHoaDon() {
         return hoadonRepository.findAll();
@@ -40,5 +45,10 @@ public class AdminService {
     // 3. Thêm một món ăn mới vào thực đơn quán cơm tấm Anh High
     public Monan themMonAnMoi(Monan monanMoi) {
         return monanRepository.save(monanMoi);
+    }
+    
+    // 4. Thêm một danh mục thể loại mới vào hệ thống
+    public Danhmuc themDanhMucMoi(Danhmuc danhmucMoi) {
+        return danhmucRepository.save(danhmucMoi);
     }
 }
