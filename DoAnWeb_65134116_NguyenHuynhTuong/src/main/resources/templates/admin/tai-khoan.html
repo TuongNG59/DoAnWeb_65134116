@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Tài Khoản - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .admin-layout { margin-top: 30px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f4f5f7; padding-bottom: 15px; }
+        .admin-title { font-size: 24px; font-weight: 700; color: #222; }
+        
+        /* CSS Bảng tài khoản */
+        .admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .admin-table th, .admin-table td { padding: 12px 15px; border-bottom: 1px solid #f4f5f7; font-size: 15px; vertical-align: middle; }
+        .admin-table th { background-color: #fff3e5; color: #f26b21; font-weight: 700; }
+        .admin-table tr:hover { background-color: #fbfbfb; }
+        
+        .badge { padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: 500; display: inline-block; }
+        .badge-admin { background-color: #fce8e6; color: #cc3333; }
+        .badge-user { background-color: #e8f0fe; color: #1a73e8; }
+        
+        .select-role { padding: 5px 8px; border-radius: 6px; border: 1px solid #ddd; outline: none; font-size: 14px; }
+        .btn-save-role { background: #f26b21; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; margin-left: 5px; }
+        .btn-save-role:hover { background: #d95a1a; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Admin -->
+    <header class="header">
+        <div class="container">
+            <a href="/admin/dashboard" class="logo" style="color: #333;">
+                🛠️ Hệ Thống Quản Trị Anh High
+            </a>
+            <div class="header-right">
+                <a href="/admin/dashboard">📋 Đơn Hàng</a>
+                <a href="/admin/danh-muc">📁 Danh Mục</a>
+                <a href="/admin/mon-an">🍱 Món Ăn</a>
+                <a href="/trang-chu">🖥️ Xem Trang Chủ</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="admin-layout">
+            <div class="admin-header">
+                <div class="admin-title">Danh Sách Thành Viên Hệ Thống</div>
+            </div>
+
+            <!-- Bảng hiển thị danh sách tài khoản -->
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Mã Khách</th>
+                        <th>Họ và Tên</th>
+                        <th>Email Đăng Nhập</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Vai Trò Hiện Tại</th>
+                        <th>Thay Đổi Quyền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Lặp đổ dữ liệu tài khoản -->
+                    <tr th:each="tk : ${taikhoanList}">
+                        <td th:text="'#' + ${tk.id}">#1</td>
+                        <td style="font-weight: 600; color: #333;" th:text="${tk.hoten}">Nguyễn Văn A</td>
+                        <td th:text="${tk.email}">nguyenvana@gmail.com</td>
+                        <td th:text="${tk.sodienthoai != null ? tk.sodienthoai : 'Chưa cập nhật'}">0901234567</td>
+                        <td>
+                            <!-- Hiện màu sắc badge tùy theo vai trò -->
+                            <span th:class="'badge ' + (${tk.vaitro == 'ADMIN' ? 'badge-admin' : 'badge-user'})"
+                                  th:text="${tk.vaitro}">USER</span>
+                        </td>
+                        <td>
+                            <!-- Form thay đổi nhanh vai trò thành viên -->
+                            <form th:action="@{/admin/tai-khoan/doi-vai-tro}" method="post" style="display: flex; align-items: center;">
+                                <input type="hidden" name="id" th:value="${tk.id}">
+                                <select name="vaitro" class="select-role">
+                                    <option value="USER" th:selected="${tk.vaitro == 'USER'}">Khách Hàng (USER)</option>
+                                    <option value="ADMIN" th:selected="${tk.vaitro == 'ADMIN'}">Quản Trị (ADMIN)</option>
+                                </select>
+                                <button type="submit" class="btn-save-role">Lưu quyền</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
