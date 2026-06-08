@@ -90,18 +90,18 @@
             </div>
             
             <!-- Cột bên phải: Form nhập thông tin nhận cơm và Tổng tiền -->
-            <div class="cart-right">
+			<div class="cart-right">
                 <div class="cart-title">Thông tin giao hàng</div>
                 
                 <form th:action="@{/gio-hang/thanh-toan}" method="post" class="checkout-form">
                     <div class="form-group">
                         <label>Số điện thoại nhận cơm</label>
-                        <input type="tel" name="sodienthoai" placeholder="Nhập SĐT để tài xế gọi" required th:value="${session.USER_LOGGED != null ? session.USER_LOGGED.sodienthoai : ''}">
+                        <input type="tel" name="sodienthoai" placeholder="Nhập SĐT để tài xế gọi" required>
                     </div>
                     
                     <div class="form-group">
                         <label>Địa chỉ giao hàng chính xác</label>
-                        <textarea name="diachigiaohang" rows="3" placeholder="Số nhà, tên đường, phường/xã..." required th:text="${session.USER_LOGGED != null ? session.USER_LOGGED.diachi : ''}"></textarea>
+                        <textarea name="diachigiaohang" rows="3" placeholder="Số nhà, tên đường, phường/xã..." required></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -111,7 +111,6 @@
                     
                     <hr style="border: none; border-top: 1px solid #f4f5f7; margin: 20px 0;">
                     
-                    <!-- Nút bấm Đặt hàng màu cam thương hiệu hoành tráng -->
                     <button type="submit" class="btn-main-wide" style="width: 100%; margin: 0;">XÁC NHẬN ĐẶT CƠM</button>
                 </form>
             </div>
