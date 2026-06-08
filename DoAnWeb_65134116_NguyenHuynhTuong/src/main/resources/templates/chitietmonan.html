@@ -18,11 +18,25 @@
         .qty-input:focus { border-color: #f26b21; }
         .note-input { width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 20px; outline: none; }
         .note-input:focus { border-color: #f26b21; }
+
+        /* CSS KHU VỰC BÌNH LUẬN */
+        .comment-section { margin-top: 40px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 50px; }
+        .comment-title { font-size: 20px; font-weight: 700; color: #222; margin-bottom: 20px; border-bottom: 2px solid #f4f5f7; padding-bottom: 10px; }
+        .comment-form textarea { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; outline: none; resize: none; margin-bottom: 15px; }
+        .comment-form textarea:focus { border-color: #f26b21; }
+        
+        .comment-list { margin-top: 25px; }
+        .comment-item { padding: 15px 0; border-bottom: 1px solid #f4f5f7; }
+        .comment-item:last-child { border-bottom: none; }
+        .comment-meta { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
+        .comment-user { font-weight: 700; color: #333; }
+        .comment-date { color: #888; font-size: 12px; }
+        .comment-content { color: #555; font-size: 15px; line-height: 1.5; }
+        .no-comment { color: #888; text-align: center; padding: 20px 0; font-style: italic; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header class="header">
         <div class="container">
             <a href="/trang-chu" class="logo">
@@ -38,32 +52,59 @@
 
     <div class="container">
         <div class="detail-layout">
-            <!-- Bên trái: Ảnh to khổng lồ của món ăn -->
             <div class="detail-image">
                 <img th:src="${monan.hinhanh != null ? monan.hinhanh : 'https://cdn.tgdd.vn/Files/2021/08/04/1373024/cach-lam-com-tam-suon-bi-cha-chuan-vi-ngon-nhu-ngoai-hang-202201251608247065.jpg'}" alt="Món ăn">
             </div>
             
-            <!-- Bên phải: Thông tin đặt hàng -->
             <div class="detail-info">
                 <div class="detail-category" th:text="${monan.danhmuc.tendanhmuc}">DANH MỤC</div>
                 <div class="detail-title" th:text="${monan.tenmon}">Tên món ăn</div>
                 <div class="detail-price" th:text="${#numbers.formatDecimal(monan.dongia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">45,000 VNĐ</div>
                 <div class="detail-desc">Món ăn được chế biến từ nguyên liệu tươi ngon trong ngày, đảm bảo an toàn vệ sinh thực phẩm. Hương vị độc quyền mang thương hiệu Quán Cơm Tấm Anh High sẽ khiến bro không thể quên!</div>
                 
-                <!-- Form chốt số lượng và ghi chú gửi lên giỏ hàng -->
                 <form th:action="@{/gio-hang/them}" method="post">
                     <input type="hidden" name="monanid" th:value="${monan.id}">
-                    
                     <div style="margin-bottom: 10px; font-weight: 500; color: #555;">Ghi chú yêu cầu thêm (Topping, dưa leo...):</div>
                     <input type="text" name="ghichu" class="note-input" placeholder="Ví dụ: Nhiều mỡ hành, không lấy tóp mỡ...">
 
                     <div style="display: flex; align-items: center;">
                         <input type="number" name="soluong" class="qty-input" value="1" min="1" max="20">
-                        <button type="submit" class="btn-main" style="flex: 1; padding: 12px 0; border-radius: 8px;">THÊM VÀO GIỎ HÀNG</button>
+                        <button type="submit" class="btn-add" style="flex: 1; padding: 12px 0; border-radius: 8px;">THÊM VÀO GIỎ HÀNG</button>
                     </div>
                 </form>
             </div>
         </div>
+
+        <div class="comment-section">
+            <div class="comment-title">Khách hàng nhận xét về món ăn</div>
+
+            <div th:if="${session.USER_LOGGED != null}">
+                <form th:action="@{/binh-luan/gui}" method="post" class="comment-form">
+                    <input type="hidden" name="monanid" th:value="${monan.id}">
+                    <textarea name="noidung" rows="3" placeholder="Đĩa cơm tấm này có vừa vị với bro không? Để lại đánh giá tại đây nhé..." required></textarea>
+                    <button type="submit" class="btn-add" style="border-radius: 8px; padding: 10px 20px;">Gửi nhận xét</button>
+                </form>
+            </div>
+            
+            <div th:if="${session.USER_LOGGED == null}" style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; font-size: 14px;">
+                Vui lòng <a href="/dang-nhap" style="color: #f26b21; font-weight: bold; text-decoration: none;">Đăng nhập</a> để để lại đánh giá của bạn về món ăn này!
+            </div>
+
+            <div class="comment-list">
+                <div class="no-comment" th:if="${#lists.isEmpty(binhluanList)}">
+                    Món ăn này chưa có bình luận nào. Hãy là người đầu tiên thưởng thức và đánh giá!
+                </div>
+                
+                <div class="comment-item" th:each="bl : ${binhluanList}">
+                    <div class="comment-meta">
+                        <span class="comment-user" th:text="${bl.taikhoan.hoten}">Nguyễn Văn A</span>
+                        <span class="comment-date" th:text="${#temporals.format(bl.ngaybinhluan, 'dd-MM-yyyy HH:mm')}">07-06-2026 12:00</span>
+                    </div>
+                    <div class="comment-content" th:text="${bl.noidung}">Cơm tấm ngon xuất sắc, sườn ướp đậm đà, nước mắm kẹo kẹo rất vừa vị!</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </body>

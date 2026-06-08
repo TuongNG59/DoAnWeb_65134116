@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nguyenhuynhtuong65134116.quancomtam.Entities.Binhluan;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Danhmuc;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Monan;
+import com.nguyenhuynhtuong65134116.quancomtam.Services.BinhluanService;
 import com.nguyenhuynhtuong65134116.quancomtam.Services.MonanService;
 
 @Controller
@@ -18,6 +20,9 @@ public class TrangChuController {
 
     @Autowired
     private MonanService monanService;
+    
+    @Autowired
+    private BinhluanService binhluanService; // Tiêm dịch vụ bình luận vào đây
 
     // Hiển thị trang chủ kèm danh sách món ăn và thanh tìm kiếm
     @GetMapping({"/", "/trang-chu"})
@@ -49,9 +54,15 @@ public class TrangChuController {
     public String hienThiChiTietMonAn(@PathVariable("id") Integer id, Model model) {
         Monan monan = monanService.layMonAnTheoId(id);
         if (monan == null) {
-            return "redirect:/trang-chu"; // Nếu không tìm thấy món thì đá về trang chủ
+            return "redirect:/trang-chu";
         }
+        
+        // Lấy danh sách bình luận cũ của món ăn này
+        List<Binhluan> danhSachBinhLuan = binhluanService.layBinhLuanCuaMonAn(id);
+        
         model.addAttribute("monan", monan);
-        return "chitietmonan"; // Sẽ khớp với file chitietmonan.html ở Bước 3
+        model.addAttribute("binhluanList", danhSachBinhLuan); // Đẩy danh sách bình luận ra HTML
+        
+        return "chitietmonan";
     }
 }
