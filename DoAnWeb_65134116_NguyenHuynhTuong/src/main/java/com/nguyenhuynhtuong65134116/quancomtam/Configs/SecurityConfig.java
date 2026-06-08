@@ -27,13 +27,13 @@ public class SecurityConfig {
             
             // 2. Cấu hình phân quyền truy cập URL
             .authorizeHttpRequests(auth -> auth
-                // Cho phép tất cả mọi người truy cập vào tài nguyên tĩnh (css, js, hình ảnh) và trang đăng ký/đăng nhập
+                // Cho phép tất cả mọi người truy cập vào tài nguyên tĩnh và trang đăng ký/đăng nhập
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/dang-ky", "/dang-nhap", "/trang-chu", "/").permitAll()
                 
-                // Các đường dẫn quản trị bắt buộc tài khoản phải có vai trò ADMIN mới vào được
-                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                // Thay .hasAuthority("ADMIN") bằng .hasRole("ADMIN") để khớp chuẩn mã hóa Role của Spring
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 
-                // Tất cả các yêu cầu khác (như giỏ hàng, đặt hàng, bình luận) phải đăng nhập mới dùng được
+                // Tất cả các yêu cầu khác phải đăng nhập mới dùng được
                 .anyRequest().authenticated()
             )
             
