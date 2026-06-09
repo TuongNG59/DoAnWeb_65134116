@@ -53,57 +53,57 @@ Dự án Cơm Tấm Anh High được xây dựng dựa trên kiến trúc **MVC
 ### 🌐 PHẦN I: PHÂN HỆ XÁC THỰC & CHỨC NĂNG CHUNG
 
 #### 🔹 Hình 6.1: Giao diện trang chủ hệ thống dành cho khách vãng lai (Chưa đăng nhập)
-*(Chèn ảnh trang chủ lúc chưa đăng nhập vào đây)*
+<img src="demo_images/6_1.png" alt="Trang chủ vãng lai" width="85%"/>
 
 #### 🔹 Hình 6.2: Biểu mẫu đăng ký tài khoản thành viên mới dành cho thực khách
-*(Chèn ảnh trang đăng ký tài khoản vào đây)*
+<img src="demo_images/6_2.png" alt="Biểu mẫu đăng ký" width="85%"/>
 
 #### 🔹 Hình 6.3: Giao diện biểu mẫu đăng nhập bảo mật của hệ thống
-*(Chèn ảnh trang đăng nhập vào đây)*
+<img src="demo_images/6_3.png" alt="Biểu mẫu đăng nhập" width="85%"/>
 
 ---
 
 ### 👤 PHẦN II: KHÔNG GIAN TƯƠNG TÁC CỦA KHÁCH HÀNG (USER)
 
 #### 🔹 Hình 6.4: Giao diện trang chủ thực đơn sau khi USER đăng nhập (Hiển thị giỏ hàng và nút đặt món)
-*(Chèn ảnh trang chủ sau khi đăng nhập có nút THÊM VÀO GIỎ vào đây)*
+<img src="demo_images/6_4.png" alt="Trang chủ sau đăng nhập" width="85%"/>
 
 #### 🔹 Hình 6.5: Giao diện kết quả tìm kiếm và bộ lọc món ăn theo danh mục thực đơn
-*(Chèn ảnh lúc gõ tìm kiếm món ăn hoặc bấm chọn danh mục vào đây)*
+<img src="demo_images/6_5.png" alt="Tìm kiếm và bộ lọc thực đơn" width="85%"/>
 
 #### 🔹 Hình 6.6: Màn hình xem chi tiết món ăn tích hợp lời giới thiệu động và phân hệ Bình luận
-*(Chèn ảnh trang chi tiết món ăn vào đây)*
+<img src="demo_images/6_6.png" alt="Chi tiết món ăn và bình luận" width="85%"/>
 
 #### 🔹 Hình 6.7: Bảng kê chi tiết giỏ hàng, tự động tính tổng tiền và biểu mẫu nhập thông tin giao nhận cơm
-*(Chèn ảnh trang xem giỏ hàng vào đây)*
+<img src="demo_images/6_7.png" alt="Giỏ hàng và thông tin thanh toán" width="85%"/>
 
-#### 🔹 Hình 6.8: Màn hình thông báo đặt hàng thành công, nhà bếp nổi lửa sau khi chốt đơn
-*(Chèn ảnh trang đặt hàng thành công vào đây)*
+#### 🔹 Hình 6.8: Màn hình thông báo đặt món thành công
+<img src="demo_images/6_8.png" alt="Đặt món thành công" width="85%"/>
 
 #### 🔹 Hình 6.9: Giao diện trang Lịch sử đơn hàng (Đơn mua) giúp khách theo dõi trạng thái xử lý đơn
-*(Chèn ảnh trang lịch sử đơn hàng vừa làm xong vào đây)*
+<img src="demo_images/6_9.png" alt="Lịch sử đơn mua của khách hàng" width="85%"/>
 
 ---
 
 ### 🛡️ PHẦN III: KHÔNG GIAN QUẢN TRỊ CỦA CHỦ QUÁN (ADMIN)
 
 #### 🔹 Hình 6.10: Bảng điều khiển tổng quan (Dashboard) và Thanh điều hướng Side-bar ẩn/hiện của Admin
-*(Chèn ảnh trang chủ Admin có thanh sidebar mở ra vào đây)*
+<img src="demo_images/6_10.png" alt="Dashboard và Sidebar Admin" width="85%"/>
 
 #### 🔹 Hình 6.11: Trung tâm tiếp nhận và cập nhật trạng thái các đơn đặt cơm tấm từ khách hàng
-*(Chèn ảnh trang danh sách đơn hàng của Admin vào đây)*
+<img src="demo_images/6_11.png" alt="Quản lý danh sách đơn hàng" width="85%"/>
 
 #### 🔹 Hình 6.12: Giao diện danh sách quản lý toàn bộ các món ăn có trong thực đơn nhà hàng
-*(Chèn ảnh trang danh sách món ăn của Admin vào đây)*
+<img src="demo_images/6_12.png" alt="Danh sách quản lý món ăn" width="85%"/>
 
 #### 🔹 Hình 6.13: Biểu mẫu thêm món ăn mới vào thực đơn có tích hợp nút chọn tải lên file ảnh vật lý
-*(Chèn ảnh trang Form thêm món ăn mới vào đây)*
+<img src="demo_images/6_13.png" alt="Form thêm món ăn mới" width="85%"/>
 
 #### 🔹 Hình 6.14: Giao diện quản lý, tạo nhanh danh mục thực đơn và xóa danh mục an toàn chống lỗi khóa ngoại
-*(Chèn ảnh trang quản lý danh mục vào đây)*
+<img src="demo_images/6_14.png" alt="Quản lý danh mục thực đơn" width="85%"/>
 
 #### 🔹 Hình 6.15: Trung tâm giám sát tài khoản người dùng và thực thi chức năng khóa quyền truy cập an toàn
-*(Chèn ảnh trang quản lý tài khoản của Admin vào đây)*
+<img src="demo_images/6_15.png" alt="Quản lý tài khoản người dùng" width="85%"/>
 
 ---
 
@@ -142,3 +142,7 @@ spring.datasource.username=root
 spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+```
+***
+### Bước 3: Khởi chạy ứng dụng
+Tìm đến class chạy chính chứa annotation @SpringBootApplication (QuancomtamApplication.java) bên trong package để khởi động ứng dụng Server. Khi hệ thống báo chạy thành công tại cổng mạng mặc định, truy cập đường dẫn http://localhost:8080 trên trình duyệt để trải nghiệm luồng nghiệp vụ.
