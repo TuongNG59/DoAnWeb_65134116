@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đơn Hàng Của Tôi - Cơm Tấm Anh High</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .history-layout { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-top: 30px; }
+        .history-title { font-size: 24px; font-weight: 700; color: #222; margin-bottom: 25px; border-bottom: 2px solid #f4f5f7; padding-bottom: 15px; }
+        .history-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .history-table th, .history-table td { padding: 15px; border-bottom: 1px solid #f4f5f7; font-size: 15px; }
+        .history-table th { background-color: #fff3e5; color: #f26b21; font-weight: 700; }
+        .status-badge { padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: 500; display: inline-block; background-color: #f1f3f4; color: #666; }
+        .status-wait { background-color: #fef7e0; color: #b06000; }
+        .status-done { background-color: #e6f4ea; color: #137333; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="/trang-chu" class="logo">Cơm Tấm Anh High</a>
+            <div class="header-right">
+                <a href="/trang-chu">🏠 Quay lại thực đơn</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="history-layout">
+            <div class="history-title">Lịch Sử Đặt Cơm Của Bạn</div>
+
+            <div th:if="${#lists.isEmpty(dsDonHang)}" style="text-align: center; padding: 40px 0;">
+                <p style="color: #666;">Bro chưa đặt đơn cơm nào tại hệ thống cả!</p>
+                <a href="/trang-chu" class="btn-main" style="text-decoration: none; display: inline-block; margin-top: 15px;">ĐẶT ĐĨA CƠM ĐẦU TIÊN</a>
+            </div>
+
+            <table th:if="${!#lists.isEmpty(dsDonHang)}" class="history-table">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Ngày Đặt</th>
+                        <th>Địa Chỉ Giao</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Tổng Tiền</th>
+                        <th>Trạng Thái Đơn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="hd : ${dsDonHang}">
+                        <td th:text="'#' + ${hd.id}" style="font-weight: 600; color: #f26b21;">#1</td>
+                        
+                        <td th:text="${hd.ngaydat}">2026-06-09</td>
+                        
+                        <td th:text="${hd.diachigiaohang}">Nha Trang</td>
+                        <td th:text="${hd.sodienthoai}">0905...</td>
+                        <td th:text="${#numbers.formatDecimal(hd.tongtien, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'" style="font-weight: 600; color: #333;">45,000 VNĐ</td>
+                        
+                        <td>
+                            <span th:if="${hd.trangthai == 'Chờ xác nhận'}" class="status-badge status-wait" th:text="${hd.trangthai}">Chờ xác nhận</span>
+                            <span th:if="${hd.trangthai == 'Đã giao'}" class="status-badge status-done" th:text="${hd.trangthai}">Đã giao</span>
+                            <span th:if="${hd.trangthai != 'Chờ xác nhận' && hd.trangthai != 'Đã giao'}" class="status-badge" th:text="${hd.trangthai}">Đang xử lý</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

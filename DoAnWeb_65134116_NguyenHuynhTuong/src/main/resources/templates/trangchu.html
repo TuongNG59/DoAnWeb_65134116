@@ -34,6 +34,8 @@
 			        
 			        <a th:if="${session.USER_LOGGED.vaitro == 'USER'}" href="/gio-hang" class="btn-cart">🛒 Giỏ Hàng</a>
 			        
+			        <a th:if="${session.USER_LOGGED.vaitro == 'USER'}" href="/gio-hang/lich-su-don-hang" style="margin-left: 10px; font-weight: 600; color: #333; text-decoration: none;">📋 Đơn mua</a>		        
+			        
 			        <span style="margin: 0 10px; font-weight: 600; color: #f26b21;">
 			            👋 Chào, <span th:text="${session.USER_LOGGED.hoten}">User</span>!
 			        </span>

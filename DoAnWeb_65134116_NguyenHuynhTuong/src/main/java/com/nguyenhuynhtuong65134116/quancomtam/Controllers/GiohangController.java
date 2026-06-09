@@ -15,6 +15,7 @@ import com.nguyenhuynhtuong65134116.quancomtam.Entities.Giohang;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Hoadon;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Monan;
 import com.nguyenhuynhtuong65134116.quancomtam.Entities.Taikhoan;
+import com.nguyenhuynhtuong65134116.quancomtam.Repositories.HoadonRepository;
 import com.nguyenhuynhtuong65134116.quancomtam.Services.GiohangService;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +26,9 @@ public class GiohangController {
 
     @Autowired
     private GiohangService giohangService;
+    
+    @Autowired
+    private HoadonRepository hoadonRepository;
 
     // 1. Xem chi tiết giỏ hàng hiện tại
     @GetMapping
@@ -85,5 +89,27 @@ public class GiohangController {
         }
         
         return "redirect:/trang-chu";
+    }
+    
+    @GetMapping("/lich-su-don-hang")
+    public String xemLichSuDonHang(HttpSession session, Model model) {
+        // 1. Kiểm tra xem khách đã đăng nhập chưa
+        Taikhoan userLogged = (Taikhoan) session.getAttribute("USER_LOGGED");
+        if (userLogged == null) {
+            return "redirect:/dang-nhap"; // Chưa đăng nhập thì đá về trang đăng nhập
+        }
+
+        // 2. Lấy ra toàn bộ danh sách hóa đơn từ database
+        // (Thay bằng hàm tìm kiếm theo Tài khoản ID của cậu nếu Repository có sẵn, 
+        // hoặc dùng mẹo quét nhanh dưới đây nếu lười viết hàm trong Repository)
+        List<Hoadon> tatCaHoaDon = hoadonRepository.findAll(); 
+        List<Hoadon> dsDonHangCuaKhach = tatCaHoaDon.stream()
+                .filter(hd -> hd.getTaikhoan() != null && hd.getTaikhoan().getId().equals(userLogged.getId()))
+                .sorted((hd1, hd2) -> hd2.getId().compareTo(hd1.getId())) // Sắp xếp đơn mới nhất lên đầu
+                .toList();
+
+        // 3. Đẩy danh sách đơn hàng sang giao diện HTML
+        model.addAttribute("dsDonHang", dsDonHangCuaKhach);
+        return "lich-su-don-hang"; // Trỏ tới file lich-su-don-hang.html sắp tạo
     }
 }
