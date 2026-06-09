@@ -109,9 +109,12 @@
                         <input type="text" name="ghichu" placeholder="Ví dụ: Ít cơm nhiều mỡ hành, nước mắm cay...">
                     </div>
                     
-                    <div class="summary-row" style="margin-top: 20px;">
+					<div class="summary-row" style="margin-top: 20px;">
                         <span>Tổng tiền thanh toán:</span>
-                        <span class="total-price" style="font-size: 20px; font-weight: 700; color: #f26b21;">Tính khi chốt đơn</span>
+                        <span class="total-price" 
+                              th:text="${#numbers.formatDecimal(#aggregates.sum(giohangList.![monan.dongia * soluong]), 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                            45,000 VNĐ
+                        </span>
                     </div>
                     
                     <hr style="border: none; border-top: 1px solid #f4f5f7; margin: 20px 0;">
